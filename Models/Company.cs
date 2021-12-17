@@ -20,5 +20,7 @@ namespace TheBugTracker.Models
         // Navigation properties
         public virtual ICollection<BTUser> Members { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
+
+        // Create relationship to invite
     }
 }
