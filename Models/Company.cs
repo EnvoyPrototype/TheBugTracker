@@ -21,6 +21,7 @@ namespace TheBugTracker.Models
         public virtual ICollection<BTUser> Members { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
 
-        // Create relationship to invite
+        // Create relationship to Invites
+        public virtual ICollection<Invite> Invites { get; set; }
     }
 }
