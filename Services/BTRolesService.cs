@@ -25,44 +25,57 @@ namespace TheBugTracker.Services
 
         }
 
-        public Task<bool> AddUserToRoleAsync(BTUser user, string roleName)
+        public async Task<bool> AddUserToRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            bool result = (await _userManager.AddToRoleAsync(user, roleName)).Succeeded;
+            return result;
         }
 
-        public Task<string> GetRoleNameByIdAsync(string roleId)
+        public async Task<string> GetRoleNameByIdAsync(string roleId)
         {
-            throw new NotImplementedException();
+            IdentityRole role = _context.Roles.Find(roleId);
+            string result = await _roleManager.GetRoleNameAsync(role);
+            return result;
         }
 
-        public Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
+        public async Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
         {
-            throw new NotImplementedException();
+            IEnumerable<string> result = await _userManager.GetRolesAsync(user);
+            return result;
         }
 
-        public Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
+        public async Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
         {
-            throw new NotImplementedException();
+            List<BTUser> users = (await _userManager.GetUsersInRoleAsync(roleName)).ToList();
+            List<BTUser> result = users.Where(u => u.CompanyId == companyId).ToList();
+            return result;
         }
 
-        public Task<List<BTUser>> GetUsersNotInRoleAsync(string roleName, int companyId)
+        public async Task<List<BTUser>> GetUsersNotInRoleAsync(string roleName, int companyId)
         {
-            throw new NotImplementedException();
+            List<string> userIds = (await _userManager.GetUsersInRoleAsync(roleName)).Select(u => u.Id).ToList();
+            List<BTUser> roleUsers = _context.Users.Where(u => !userIds.Contains(u.Id)).ToList();
+
+            List<BTUser> result = roleUsers.Where(u => u.CompanyId == companyId).ToList();
+            return result;
         }
 
-        public Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
+        public async Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            bool result = await _userManager.IsInRoleAsync(user, roleName);
+            return result;
         }
 
-        public Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
+        public async Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            bool result = (await _userManager.RemoveFromRoleAsync(user, roleName)).Succeeded;
+            return result;
         }
 
-        public Task<bool> RemoveUserFromRolesAsync(BTUser user, string roleName)
+        public async Task<bool> RemoveUserFromRolesAsync(BTUser user, IEnumerable<string> roles)
         {
-            throw new NotImplementedException();
+            bool result = (await _userManager.RemoveFromRolesAsync(user, roles)).Succeeded;
+            return result;
         }
     }
 }
