@@ -64,24 +64,27 @@
                 @Html.DisplayFor(modelItem => item.ImageFileName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageFileData)
+                @if (item.ImageFileData != null)
+                {
+                    <img style="width:60px;height:60px" src="data:image/*;base64,@(Convert.ToBase64String(item.ImageFileData))" alt="" />
+                }
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.ImageContentType)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Archived)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
+                @Html.DisplayFor(modelItem => item.Company.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProjectPriority.Id)
+                @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Archive" asp-route-id="@item.Id">Archive</a>
             </td>
         </tr>
 }
