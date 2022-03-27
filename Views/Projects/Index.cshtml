@@ -83,8 +83,17 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Archive" asp-route-id="@item.Id">Archive</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                @if (item.Archived)
+                {
+                    <a asp-action="Restore" asp-route-id="@item.Id">Restore</a>
+                }
+                else
+                {
+                    <a asp-action="Archive" asp-route-id="@item.Id">Archive</a>
+                }
+                |
             </td>
         </tr>
 }

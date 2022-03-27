@@ -48,6 +48,8 @@ namespace TheBugTracker.Services.Interfaces
 
         public Task RemoveUserFromProjectAsync(string userId, int projectId);
 
+        public Task RestoreProjectAsync(Project project);
+
         public Task UpdateProjectAsync(Project project);
     }
 }
