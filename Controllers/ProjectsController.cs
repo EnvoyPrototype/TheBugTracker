@@ -49,6 +49,7 @@ namespace TheBugTracker.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        // GET: MyProjects
         public async Task<IActionResult> MyProjects()
         {
             string userId = _userManager.GetUserId(User);
@@ -58,6 +59,7 @@ namespace TheBugTracker.Controllers
             return View(projects);
         }
 
+        // GET: AllProjects
         public async Task<IActionResult> AllProjects()
         {
             List<Project> projects = new();
@@ -72,6 +74,16 @@ namespace TheBugTracker.Controllers
             {
                 projects = await _projectService.GetAllProjectsByCompany(companyId);
             }
+
+            return View(projects);
+        }
+
+        // GET: ArchivedProjects
+        public async Task<IActionResult> ArchivedProjects()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = await _projectService.GetArchivedProjectsByCompanyAsync(companyId);
 
             return View(projects);
         }
