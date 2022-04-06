@@ -16,6 +16,22 @@
 }
 
 <h1>Ticket Details</h1>
+@if (!string.IsNullOrEmpty(Model.DeveloperUserId))
+{
+    <a href="javascript:void(0);">
+        @if (Model.DeveloperUser?.AvatarFileData != null)
+        {
+            <img class="media-object" src="data:image/*;base64,@(Convert.ToBase64String(btUser.AvatarFileData))" alt="" />
+        }
+        else
+        {
+            <img class="media-object" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" alt="default avatar" style="width:30px;height:30px" />}
+    </a>
+    <span class="text-muted" style="font-size:x-small;">
+        Developer: <strong>@Model.DeveloperUser.FullName</strong>
+    </span>
+}
+
 
 <div>
     <div classxfont-weighteighteightgetainer-fluid">
@@ -29,8 +45,8 @@
                             <div class="progress-container progress-info m-b-25">
                                 <span class="progress-badge" style="font-size:small">Project: @Model.Project.Name</span>
                                 <div class="progress">
-    
-                                    @{ 
+
+                                    @{
                                         var start = Model.Project.StartDate.DateTime;
                                         var end = Model.Project.EndDate.DateTime;
                                         var today = DateTime.Now;
@@ -204,7 +220,7 @@
                                         <p>The ticket <b>@history.Property</b> was edited </p>
                                         <p>@($"Previous {history.Property}:  {history.OldValue}")</p>
                                         <p>@($"Current {history.Property}:  {history.NewValue}")</p>
-                                  
+
                                     </div>
                                 </div>
                             }
