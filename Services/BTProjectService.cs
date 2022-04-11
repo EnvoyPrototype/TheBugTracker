@@ -43,20 +43,23 @@ namespace TheBugTracker.Services
                 catch (Exception ex)
                 {
                     Console.WriteLine($"**** ERROR **** - Error removing User from project. ---> {ex.Message}");
-                    return false;
+                    //return false;
+                    throw;
                 }
             }
 
             // Add the new PM
             try
             {
-                await AddProjectManagerAsync(userId, projectId);
+                //await AddProjectManagerAsync(userId, projectId);
+                await AddUserToProjectAsync(userId, projectId);
                 return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"**** ERROR **** - Error adding new Project Manager. ---> {ex.Message}");
-                return false;
+                //return false;
+                throw;
             }
 
         }
