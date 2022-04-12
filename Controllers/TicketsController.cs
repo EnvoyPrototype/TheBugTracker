@@ -132,7 +132,25 @@ namespace TheBugTracker.Controllers
         {
             if (model.DeveloperId != null)
             {
-                await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                BTUser btUser = await _userManager.GetUserAsync(User);
+                // oldTicket
+                Ticket oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
+
+                try
+                {
+                    await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                // newTicket
+                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
+                await _historyService.AddHistoryAsync(oldTicket, newTicket, btUser.Id);
+
+                return RedirectToAction(nameof(Details), new { id = model.Ticket.Id });
             }
 
             return RedirectToAction(nameof(AssignDeveloper), new { id = model.Ticket.Id });
@@ -189,16 +207,26 @@ namespace TheBugTracker.Controllers
             
             if (ModelState.IsValid)
             {
-                ticket.Created = DateTimeOffset.Now;
-                ticket.OwnerUserId = btUser.Id;
+                try
+                {
+                    ticket.Created = DateTimeOffset.Now;
+                    ticket.OwnerUserId = btUser.Id;
 
-                ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync(nameof(BTTicketStatus.New))).Value;
+                    ticket.TicketStatusId = (await _ticketService.LookupTicketStatusIdAsync(nameof(BTTicketStatus.New))).Value;
 
-                await _ticketService.AddNewTicketAsync(ticket);
+                    await _ticketService.AddNewTicketAsync(ticket);
 
-                // TODO: Ticket History
+                    // TODO: Ticket History
+                    Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+                    await _historyService.AddHistoryAsync(null, newTicket, btUser.Id);
 
-                // TODO: Ticket Notification
+                    // TODO: Ticket Notification
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
 
                 return RedirectToAction(nameof(Index));
             }
