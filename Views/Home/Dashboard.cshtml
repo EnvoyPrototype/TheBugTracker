@@ -11,6 +11,19 @@
     BTUser btUser = await UserManager.GetUserAsync(User);
 }
 
+<!-- Styles -->
+<style>
+    .amDark {
+        background-color: #30303d;
+        color: #fff;
+    }
+
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+</style>
+
 <h1>Dashboard</h1>
 <a href="javascript:void(0);">
     @if (btUser?.AvatarFileData != null)
@@ -134,10 +147,11 @@
         <div class="row gy-2">
             <div class="cols mt-5 bg-secondary">
                 <div class="card col m-1 p-2">
-                    <div class="card-body" style="height:380px">
-                        <h5>Chart 5</h5>
-                        <p>[Projects: Tickets vs Developers]</p>
-
+                    <div class="card-body" style="height:600px">
+                        <h5>Project: Tickets vs Developers</h5>
+                        <p>[amCharts]</p>
+                        <!-- HTML -->
+                        <div id="chartdiv"></div>
                     </div>
                 </div>
             </div>
@@ -449,5 +463,86 @@
 	});
     </script>
     <!-- *** End Chart JS Donut *** -->
+    <!-- *** Begin AM Charts *** -->
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+
+    <!-- Chart code -->
+    <script>
+        $.ajax({
+            type: "POST",
+            url: "/Home/AmCharts",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                am4core.ready(function () {
+
+                    // Themes begin
+                    // Themes end
+
+                    // Create chart instance
+                    var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+
+                    // Add data
+                    chart.data = result;
+
+                    // Create axes
+                    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis.dataFields.category = "project";
+                    categoryAxis.numberFormatter.numberFormat = "#";
+                    categoryAxis.renderer.inversed = true;
+                    categoryAxis.renderer.grid.template.location = 0;
+                    categoryAxis.renderer.cellStartLocation = 0.1;
+                    categoryAxis.renderer.cellEndLocation = 0.9;
+
+                    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+                    valueAxis.renderer.opposite = true;
+
+                    // Create series
+                    function createSeries(field, name) {
+                        var series = chart.series.push(new am4charts.ColumnSeries());
+                        series.dataFields.valueX = field;
+                        series.dataFields.categoryY = "project";
+                        series.name = name;
+                        series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
+                        series.columns.template.height = am4core.percent(100);
+                        series.sequencedInterpolation = true;
+
+                        var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+                        valueLabel.label.text = "{valueX}";
+                        valueLabel.label.horizontalCenter = "left";
+                        valueLabel.label.dx = 10;
+                        valueLabel.label.hideOversized = false;
+                        valueLabel.label.truncate = false;
+
+                        var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
+                        categoryLabel.label.text = "{name}";
+                        categoryLabel.label.horizontalCenter = "right";
+                        categoryLabel.label.dx = -10;
+                        categoryLabel.label.fill = am4core.color("#fff");
+                        categoryLabel.label.hideOversized = false;
+                        categoryLabel.label.truncate = false;
+                    }
+
+                    createSeries("tickets", "Tickets");
+                    createSeries("developers", "Devs");
+
+                }); // end am4core.ready()
+
+
+            },
+            failure: function (result) {
+                alert(result.d);
+            },
+            error: function (result) {
+                alert(result.d);
+            }
+        });
+    </script>
+
+    <!-- *** End AM Charts *** -->
 
 }
