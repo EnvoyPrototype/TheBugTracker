@@ -119,9 +119,13 @@
                     </div>
                     <div class="card col m-1 p-2">
                         <div class="card-body">
-                            <h5>Chart 4</h5>
-                            <p>[Tickets]</p>
-
+                            <h5>Tickets by Status</h5>
+                            <p>[ChartJS]</p>
+                            <!-- ChartJS: Pie/Doughnut -->
+                            <div class="col-md-12">
+                                <!--  Chart.js Canvas Tag -->
+                                <canvas id="donutChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -395,5 +399,55 @@
 		});
 	};
     </script>
+
+    <!-- *** Begin Chart JS Pie/Donut *** -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+    <script>
+
+	var donutChartCanvas = $('#donutChart').get(0).getContext('2d');
+	var donutData = {
+		labels: [
+			'@nameof(BTTicketStatus.Development)',
+			'@nameof(BTTicketStatus.New)',
+			'@nameof(BTTicketStatus.Resolved)',
+			'@nameof(BTTicketStatus.Testing)'
+		],
+		datasets: [
+			{
+				data: [
+					@Model.Tickets.Where(t=> t.TicketStatus.Name == nameof(BTTicketStatus.Development)).Count(),
+					@Model.Tickets.Where(t=> t.TicketStatus.Name ==nameof(BTTicketStatus.New)).Count(),
+					@Model.Tickets.Where(t=> t.TicketStatus.Name ==nameof(BTTicketStatus.Resolved)).Count(),
+					@Model.Tickets.Where(t=> t.TicketStatus.Name ==nameof(BTTicketStatus.Testing)).Count()
+				],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)'
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)'
+				]
+			}
+		]
+	};
+
+	var donutOptions = {
+		maintainAspectRatio: false,
+		responsive: true,
+	};
+	//Create pie or douhnut chart
+	// You can switch between pie and douhnut using the method below.
+	new Chart(donutChartCanvas, {
+		type: 'doughnut',
+		data: donutData,
+		options: donutOptions
+	});
+    </script>
+    <!-- *** End Chart JS Donut *** -->
 
 }
