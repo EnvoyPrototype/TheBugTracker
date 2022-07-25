@@ -14,23 +14,10 @@ namespace TheBugTracker
 {
     public class Program
     {
-        //public async static Task Main(string[] args)
-        //{
-        //    var host = CreateHostBuilder(args).Build();
-        //    await DataUtility.ManageDataAsync(host);
-        //    host.Run();
-        //}
-
-        public static async Task Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-
-            var dbContext = host.Services
-                .CreateScope().ServiceProvider
-                .GetRequiredService<ApplicationDbContext>();
-
-            await dbContext.Database.MigrateAsync();
-
+            await DataUtility.ManageDataAsync(host);
             host.Run();
         }
 
