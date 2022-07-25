@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,10 +14,23 @@ namespace TheBugTracker
 {
     public class Program
     {
-        public async static Task Main(string[] args)
+        //public async static Task Main(string[] args)
+        //{
+        //    var host = CreateHostBuilder(args).Build();
+        //    await DataUtility.ManageDataAsync(host);
+        //    host.Run();
+        //}
+
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            await DataUtility.ManageDataAsync(host);
+
+            var dbContext = host.Services
+                .CreateScope().ServiceProvider
+                .GetRequiredService<ApplicationDbContext>();
+
+            await dbContext.Database.MigrateAsync();
+
             host.Run();
         }
 
