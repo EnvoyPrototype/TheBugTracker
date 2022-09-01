@@ -6,21 +6,32 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Need a Demo Account?</h4>
+
+    <button onclick="setAdminValue()">Admin</button>
+    <button onclick="setPMValue()">Project Manager</button>
+    <button onclick="setDevValue()">Developer</button>
+    <button onclick="setSubmitterValue()">Submitter</button>
+</div>
+
 <div class="row">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
+                <hr />
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
+                    <input id="email" asp-for="Input.Email" class="form-control" />
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
+                    <input id="password" asp-for="Input.Password" class="form-control" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -32,9 +43,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <button type="submit" class="btn btn-primary mt-2">Log in</button>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <p>
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
@@ -46,10 +57,13 @@
                     </p>
                 </div>
             </form>
+
+            
+
         </section>
     </div>
     <div class="col-md-6 col-md-offset-2">
-        <section>
+        @*<section>
             <h4>Use another service to log in.</h4>
             <hr />
             @{
@@ -76,10 +90,40 @@
                     </form>
                 }
             }
-        </section>
+        </section>*@
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+<script>
+    function setAdminValue() {
+        var email = document.getElementById('email');
+        email.value = "btadmin1@bugtracker.com";
+        var password = document.getElementById('password');
+        password.value = "Abc&123!";
+    }
+
+    function setPMValue() {
+        var email = document.getElementById('email');
+        email.value = "ProjectManager1@bugtracker.com";
+        var password = document.getElementById('password');
+        password.value = "Abc&123!";
+    }
+
+    function setDevValue() {
+        var email = document.getElementById('email');
+        email.value = "Developer1@bugtracker.com";
+        var password = document.getElementById('password');
+        password.value = "Abc&123!";
+    }
+
+    function setSubmitterValue() {
+        var email = document.getElementById('email');
+        email.value = "Submitter1@bugtracker.com";
+        var password = document.getElementById('password');
+        password.value = "Abc&123!";
+    }
+</script>
 }
