@@ -73,14 +73,16 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card text-center bg-warning">
-                    <div class="body">
-                        <div class="p-15 text-light">
-                            <h3>@Model.Tickets.Where(t => string.IsNullOrEmpty(t.DeveloperUserId)).Count()</h3>
-                            <span>Unassigned Tickets</span>
+                <a asp-action="UnassignedTickets" asp-controller="Tickets" style="text-decoration:none">
+                    <div class="card text-center bg-warning">
+                        <div class="body">
+                            <div class="p-15 text-light">
+                                <h3>@Model.Tickets.Where(t => string.IsNullOrEmpty(t.DeveloperUserId)).Count()</h3>
+                                <span>Unassigned Tickets</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card text-center bg-dark">
@@ -176,7 +178,7 @@
     <div class="mt-5 ">
         <div class="row">
             @* Projects Table *@
-            <div class="col">
+            <div class="col-6">
                 <div class="bg-secondary">
                     <div class="card m-1 p-2">
                         <div class="card-header">
@@ -222,7 +224,7 @@
                 </div>
             </div>
             @* Tickets Table *@
-            <div class="col">
+            <div class="col-6">
                 <div class="bg-secondary">
                     <div class="card m-1 p-2">
                         <div class="card-header">
@@ -288,30 +290,32 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 ">
-                <div class="bg-dark">
-                    <div class="card m-1 p-2">
-                        <div class="card-header">
-                            <h2>Members</h2>
-                            <hr />
-                        </div>
-                        <div class="card-body" style="overflow-y:auto;height:600px;background-color:antiquewhite">
 
-                            @foreach (BTUser member in Model.Members)
-                            {
-                                <div class="">
-
-                                    <span style="font-weight:bold">@member.FullName</span>
-                                    <h6>@((await RolesService.GetUserRolesAsync(member)).FirstOrDefault())</h6>
-                                </div>
+            <div class="row">
+                <div class="col-md ">
+                    <div class="bg-dark">
+                        <div class="card m-1 p-2">
+                            <div class="card-header">
+                                <h2>Members</h2>
                                 <hr />
+                            </div>
+                            <div class="card-body" style="overflow-y:auto;height:600px;background-color:antiquewhite">
 
-                            }
+                                @foreach (BTUser member in Model.Members)
+                                {
+                                    <div class="">
+
+                                        <span style="font-weight:bold">@member.FullName</span>
+                                        <h6>@((await RolesService.GetUserRolesAsync(member)).FirstOrDefault())</h6>
+                                    </div>
+                                    <hr />
+
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
