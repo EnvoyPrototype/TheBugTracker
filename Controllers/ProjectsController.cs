@@ -255,8 +255,7 @@ namespace TheBugTracker.Controllers
                     throw;
                 }
 
-                // TODO: Redirect to All Projects
-                return RedirectToAction("Index");
+                return RedirectToAction("AllProjects");
 
             }
                 
