@@ -203,12 +203,12 @@
                                     @foreach (var project in Model.Projects.OrderByDescending(d => d.EndDate))
                                     {
                                         <tr>
-                                            <td><a asp-action="Details" asp-controller="Project" asp-route-id="@project.Id" style="color:black"><strong>@project.Name</strong></a></td>
+                                            <td><a asp-action="Details" asp-controller="Projects" asp-route-id="@project.Id" style="color:black"><strong>@project.Name</strong></a></td>
                                             <td><span style="font-size:small">@project.StartDate.ToString("MM.dd.yyyy")</span></td>
                                             <td><span style="font-size:small">@project.EndDate.ToString("MM.dd.yyyy")</span></td>
                                             <td><span class="badge bg-dark">@project.ProjectPriority?.Name</span></td>
                                             <td>
-                                                <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-controller="Project" asp-route-id="@project.Id"><i class="fs-5 bi-justify"></i></a>
+                                                <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-controller="Projects" asp-route-id="@project.Id"><i class="fs-5 bi-justify"></i></a>
                                             </td>
                                         </tr>
                                     }
