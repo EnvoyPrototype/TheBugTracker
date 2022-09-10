@@ -323,7 +323,7 @@ namespace TheBugTracker.Controllers
                     }
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("AllProjects");
 
             }
             return RedirectToAction("Edit");
@@ -362,7 +362,7 @@ namespace TheBugTracker.Controllers
             var project = await _projectService.GetProjectByIdAsync(id, companyId);
             await _projectService.ArchiveProjectAsync(project);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AllProjects));
         }
 
         // GET: Projects/Restore/5
@@ -398,7 +398,7 @@ namespace TheBugTracker.Controllers
             var project = await _projectService.GetProjectByIdAsync(id, companyId);
             await _projectService.RestoreProjectAsync(project);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AllProjects));
         }
 
         private async Task<bool> ProjectExists(int id)
