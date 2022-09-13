@@ -218,6 +218,9 @@
                                         @* Table body *@
                                         @foreach (var ticket in Model.Tickets.OrderByDescending(d => d.Created))
                                         {
+                                            if (ticket.Archived != true)
+                {
+
                                             <tr>
                                                 <td><a asp-action="Details" asp-controller="Tickets" asp-route-id="@ticket.Id" style="color:black"><strong>@ticket.Title</strong></a> </td>
                                                 <td>
@@ -258,6 +261,7 @@
                                                     }
                                                 </td>
                                             </tr>
+                }
                                         }
 
                                     </tbody>
